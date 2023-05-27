@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import {HttpClientModule} from '@angular/common/http';
 import { ProductService } from './services/product.service';
-import { Route } from '@angular/router';
+
 import {Routes, RouterModule} from '@angular/router';
 
 const routes : Routes= [
