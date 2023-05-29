@@ -12,7 +12,7 @@ export class ProductCategoryMenuComponent implements OnInit {
 
   productCategories: ProductCategory[] = [];
 
-  constructor( private productService: ProductService) { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
     this.listProductCategories();
@@ -29,6 +29,6 @@ export class ProductCategoryMenuComponent implements OnInit {
   }
 
 
-  }
+}
 
 
