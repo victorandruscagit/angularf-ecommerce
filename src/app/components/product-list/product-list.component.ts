@@ -13,6 +13,13 @@ export class ProductListComponent implements OnInit {
   products: Product[] = []
   currentCategoryId: number = 1;
   searchMode: boolean = false;
+
+  //new properties for pagination
+  thePageNumber: number =1;
+  thePageSize : number =10;
+  theTotalElements : number =0;
+  previousCatagory: number =1;
+
  
   
 
@@ -54,9 +61,20 @@ export class ProductListComponent implements OnInit {
     else {
       this.currentCategoryId = 1;
     }
-    this.productService.getProductList(this.currentCategoryId).subscribe(
+
+    if(this.previousCatagory != this.currentCategoryId){
+      this.thePageNumber =1;
+    }
+    this.previousCatagory = this.currentCategoryId;
+    console.log('currentCategoryId = ${this.currentCategoryId}, thePageNumber=${this.thePageNumber' );
+    this.productService.getProductListPaginate(this.thePageNumber -1, this.thePageSize,this.currentCategoryId).subscribe(
       data => {
-        this.products = data;
+        this.products = data._embedded.products;
+        this.thePageNumber = data.page.number +1;
+        this.thePageSize = data.page.size;
+        this.theTotalElements = data.page.totalElements;
+
+
       }
     )    
   }
