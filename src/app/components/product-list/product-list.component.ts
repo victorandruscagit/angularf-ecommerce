@@ -15,11 +15,13 @@ export class ProductListComponent implements OnInit {
   previousCategoryId: number = 1;
   searchMode: boolean = false;
 
+
   // new properties for pagination
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
   previousKeyword: string = "";
+
 
   constructor(private productService: ProductService,
     private route: ActivatedRoute) { }
@@ -69,6 +71,7 @@ export class ProductListComponent implements OnInit {
     else {
       this.currentCategoryId = 1;
     }
+
     if (this.previousCategoryId != this.currentCategoryId) {
       this.thePageNumber = 1;
     }
@@ -78,6 +81,7 @@ export class ProductListComponent implements OnInit {
       this.thePageSize,
       this.currentCategoryId)
       .subscribe(this.processResults());
+
   }
 
 
