@@ -55,9 +55,10 @@
                     <p>Total Quantity : {{totalQuantity}}</p>
                     <p>Shipping free:</p>
                     <p>Total Price : {{totalPrice | currency : 'EUR'}}</p>
-
+                    <a routerLink="/checkout" class="btn btn-primary">Checkout</a>
                 </td>
             </tr>
+            
         </table>
     </div>
     <div *ngIf="cartItems.length==0" class="alert alert-warning col-md-12" role="alert">
