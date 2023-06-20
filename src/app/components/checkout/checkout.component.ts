@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { LoveformService } from 'src/app/services/loveform.service';
 
 @Component({
   selector: 'app-checkout',
@@ -10,9 +11,12 @@ export class CheckoutComponent implements OnInit {
   checkoutFormGroup!: FormGroup;
   totalPrice:number = 0;
   totalQuantity : number = 0;
+  creditCardYears : number[] = [];
+  creditCardMonths : number[] = [];
 
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              private loveForm : LoveformService) {
 
   }
 
@@ -56,6 +60,27 @@ export class CheckoutComponent implements OnInit {
           }
         )
       });
+      //populate credit cart months
+      const startMonth : number = new Date().getMonth() + 1;
+      console.log("start Mont " + startMonth);
+      this.loveForm.getCreditCardMonths(startMonth).subscribe(
+        data =>{
+          console.log("Retrieved credit card months:" + JSON.stringify(data));
+          this.creditCardMonths = data;
+        }
+      );
+
+       
+      //populate credit cart year
+      this.loveForm.getCreditCardYears().subscribe(
+        data =>{
+          console.log("Retrieved credit card months:" + JSON.stringify(data));
+          this.creditCardYears = data;
+        }
+      );
+
+
+
   }
 
   onSubmit() {
