@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Country } from 'src/app/common/country';
+import { State } from 'src/app/common/state';
 import { LoveformService } from 'src/app/services/loveform.service';
 
 @Component({
@@ -13,6 +15,10 @@ export class CheckoutComponent implements OnInit {
   totalQuantity: number = 0;
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
+  countries: Country[] = [];
+  shippingAddressStates: State[] = [];
+  billingAddressStates: State[] = [];
+
 
 
   constructor(private formBuilder: FormBuilder,
@@ -60,6 +66,7 @@ export class CheckoutComponent implements OnInit {
           }
         )
       });
+
     //populate credit cart months
     const startMonth: number = new Date().getMonth() + 1;
     console.log("start Mont " + startMonth);
@@ -68,10 +75,11 @@ export class CheckoutComponent implements OnInit {
         console.log("Retrieved credit card months:" + JSON.stringify(data));
         this.creditCardMonths = data;
       }
+
     );
 
 
-    //populate credit cart year
+    //populate credit cart years
     this.loveForm.getCreditCardYears().subscribe(
       data => {
         console.log("Retrieved credit card months:" + JSON.stringify(data));
@@ -79,9 +87,18 @@ export class CheckoutComponent implements OnInit {
       }
     );
 
+    //populate countries
+    this.loveForm.getCountries().subscribe(
+      data => {
+        console.log("retrieved countries :" + JSON.stringify(data));
+        this.countries = data;
+      }
+    );
 
 
   }
+
+
 
   onSubmit() {
     console.log('Handling the submit button');
@@ -104,19 +121,41 @@ export class CheckoutComponent implements OnInit {
     const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
     const currentYear = new Date().getFullYear();
     const selectedYear = Number(creditCardFormGroup!.value.expirationYear);
-    let startMonth : number;
-    if(currentYear === selectedYear ){
+    let startMonth: number;
+    if (currentYear === selectedYear) {
       startMonth = new Date().getMonth() + 1;
-    }else{
+    } else {
       startMonth = 1;
     }
 
     this.loveForm.getCreditCardMonths(startMonth).subscribe(
-      data =>{
+      data => {
         this.creditCardMonths = data;
 
       }
     )
 
   }
+  getStates(formGroupName: string) {
+    const formGroup = this.checkoutFormGroup.get(formGroupName);
+    const countryCode = formGroup!.value.country.code;
+    const countryName = formGroup!.value.country.name;
+    this.loveForm.getStates(countryCode).subscribe(
+      data => {
+        if (formGroupName === 'shippingAddress') {
+          this.shippingAddressStates = data;
+        }
+        else {
+
+          this.billingAddressStates = data;
+        }
+
+
+      }
+
+
+    )
+  }
+
+
 }
