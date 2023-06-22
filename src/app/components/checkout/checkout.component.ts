@@ -109,8 +109,10 @@ export class CheckoutComponent implements OnInit {
     if (event.target) {
       this.checkoutFormGroup.controls['billingAddress'].setValue(this.checkoutFormGroup.
         controls['shippingAddress'].value);
+        this.billingAddressStates = this.shippingAddressStates;
     } else {
       this.checkoutFormGroup.controls['billingAddress'].reset();
+      this.billingAddressStates=[];
 
     }
 
@@ -146,9 +148,9 @@ export class CheckoutComponent implements OnInit {
           this.shippingAddressStates = data;
         }
         else {
-
           this.billingAddressStates = data;
         }
+        
 
 
       }
